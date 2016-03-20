@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+  argv = require('optimist').argv,
+  xpush = require('../lib/index'),
+  utils = require('../lib/utils');
+
+function exit() {
+  process.exit(0);
+}
+
+process.on('SIGINT', exit);
+process.on('SIGTERM', exit);
+
+var help = [
+  "usage: session-server [options] ",
+  "",
+  "Starts a xpush server using the specified command-line options",
+  "",
+  "options:",
+  "  --port   PORT       Port that the xpush server should run on",
+  "  --config OUTFILE    Location of the configuration file for the xpush server",
+  "  --host   DOMAIN     Hostname",
+  "  -h, --help          You're staring at it"
+].join('\n');
+
+if (argv.h || argv.help /*|| Object.keys(argv).length === 2 || !argv.config*/) {
+  return console.log(help);
+}
+
+var config = {},
+  server;
+
+if (argv.config) {
+  try {
+    var data = fs.readFileSync(argv.config);
+    config = JSON.parse(data.toString());
+  } catch (ex) {
+    console.error('Error starting xpush server: ' + ex);
+    process.exit(1);
+  }
+}
+
+var options = {};
+
+if (config.zookeeper) options['zookeeper'] = config.zookeeper;
+if (config.redis) options['redis'] = config.redis;
+
+options['host'] = argv.host || utils.getIP();
+options['port'] = 8080;
+if (config.sessionServer) {
+  options['port'] = config.sessionServer.port;
+}
+
+if (argv.port) options['port'] = argv.port;
+
+var pidFilePath = utils.getPidFilePath(options['home'], 'SESSION', options['port']);
+
+if (fs.existsSync(pidFilePath)) {
+  fs.unlinkSync(pidFilePath);
+}
+
+var pid = require('../lib/pid').create(pidFilePath);
+pid.removeOnExit();
+
+console.log(options);
+
+server = xpush.createSessionServer(options);
