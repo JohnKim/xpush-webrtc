@@ -1,0 +1,30 @@
+# UDP / TCP
+listening-port=3478
+# TLS / DTLS
+tls-listening-port=5349
+
+# IP Setting
+listening-ip=[internal IP Address]
+relay-ip=[internal IP Address]
+external-ip=[public IP Address]
+
+min-port=49152
+max-port=65535
+
+# long-term credential mechanism
+lt-cred-mech
+
+# forlong-term credential and REST API
+realm=stalk.io
+
+# Enable the REST API
+use-auth-secret
+
+# Determine the static authentication secret when calculating the temporary password for accessing the TURN server:
+static-auth-secret=8KrUgXbFuG
+
+cert=/usr/local/etc/turn_server_cert.pem
+pkey=/usr/local/etc/turn_server_pkey.pem
+
+verbose
+fingerprint
