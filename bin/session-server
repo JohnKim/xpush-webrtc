@@ -24,7 +24,7 @@ var help = [
   "  -h, --help          You're staring at it"
 ].join('\n');
 
-if (argv.h || argv.help /*|| Object.keys(argv).length === 2 || !argv.config*/) {
+if (argv.h || argv.help || Object.keys(argv).length === 2 || !argv.config) {
   return console.log(help);
 }
 
@@ -45,6 +45,13 @@ var options = {};
 
 if (config.zookeeper) options['zookeeper'] = config.zookeeper;
 if (config.redis) options['redis'] = config.redis;
+
+if (config.facebook){
+  options['facebook'] = config.facebook;
+}else{
+  console.error('FACEBOOK APP OAUTH is not defined into the config file.');
+  process.exit(1);
+}
 
 options['host'] = argv.host || utils.getIP();
 options['port'] = 8080;
