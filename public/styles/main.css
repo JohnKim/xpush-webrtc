@@ -1,0 +1,18 @@
+
+.login-card-wide.mdl-card {
+  width: 512px;
+}
+.login-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('/images/welcome_card.jpg') center / cover;
+}
+.login-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.mdl-layout {
+  background-color: #FAFAFA;
+  align-items: center;
+  justify-content: center;
+}
