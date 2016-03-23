@@ -63,6 +63,7 @@ if (fs.existsSync(pidFilePath)) {
 var pid = require('../lib/pid').create(pidFilePath);
 pid.removeOnExit();
 
-console.log(options);
+console.log('\n  # server options ')
+console.log(' ', options, '\n');
 
 server = xpush.createSessionServer(options);
