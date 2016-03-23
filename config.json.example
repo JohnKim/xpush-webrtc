@@ -1,0 +1,9 @@
+{
+  "zookeeper": {},
+  "redis": {},
+  "facebook": {
+    "app_id": "YOUR FACEBOOK APP ID",
+    "app_secret": "YOUR FACEBOOK APP SECRET",
+    "callback": "YOUR CALLBACK URL"
+   }
+}
